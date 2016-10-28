@@ -13,6 +13,7 @@ import java.util.List;
 public interface HomeContract {
     interface View extends BaseView<Presenter> {
         void showTodayQuestions(List<Question> questionList);
+        void showAnswersOfAQuestion(Question question);
     }
 
     interface Presenter extends BasePresenter {

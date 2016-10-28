@@ -19,15 +19,21 @@ import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.QuestionViewHolder> {
 
+    public interface OnCardClickListener {
+        void onQuestionClicked(Question question);
+    }
+
     private List<Question> questionList;
+    private OnCardClickListener onCardClickListener;
 
     public void setQuestionList(List<Question> questionList) {
         this.questionList = questionList;
         this.notifyDataSetChanged();
     }
 
-    public HomeAdapter(List<Question> questionList) {
+    public HomeAdapter(List<Question> questionList, OnCardClickListener onCardClickListener) {
         this.questionList = questionList;
+        this.onCardClickListener = onCardClickListener;
     }
 
     @Override
@@ -38,8 +44,18 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.QuestionViewHo
 
     @Override
     public void onBindViewHolder(QuestionViewHolder holder, int position) {
-        holder.dateTextView.setText(questionList.get(position).getDate());
-        holder.contentTextView.setText(questionList.get(position).getContent());
+        final Question question = questionList.get(position);
+        holder.dayTextView.setText(question.getDay());
+        holder.monthTextView.setText(question.getMonth());
+        holder.contentTextView.setText(question.getContent());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (HomeAdapter.this.onCardClickListener != null) {
+                    HomeAdapter.this.onCardClickListener.onQuestionClicked(question);
+                }
+            }
+        });
     }
 
     @Override
@@ -49,12 +65,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.QuestionViewHo
 
 
     public static class QuestionViewHolder extends RecyclerView.ViewHolder {
-        TextView dateTextView;
+        CardView cardView;
+        TextView dayTextView;
+        TextView monthTextView;
         TextView contentTextView;
 
         QuestionViewHolder(View itemView) {
             super(itemView);
-            dateTextView = (TextView) itemView.findViewById(R.id.card_date);
+            cardView = (CardView) itemView.findViewById(R.id.question_card);
+            monthTextView = (TextView) itemView.findViewById(R.id.card_month);
+            dayTextView = (TextView) itemView.findViewById(R.id.card_day);
             contentTextView = (TextView) itemView.findViewById(R.id.card_content);
         }
     }

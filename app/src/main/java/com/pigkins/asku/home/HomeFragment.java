@@ -1,5 +1,6 @@
 package com.pigkins.asku.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pigkins.asku.R;
+import com.pigkins.asku.answer.AnswerActivity;
 import com.pigkins.asku.data.Question;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements HomeContract.View {
 
-    private HomeContract.Presenter mPresenter;
+    private HomeContract.Presenter presenter;
 
     private HomeAdapter homeAdapter;
 
@@ -36,13 +38,13 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        homeAdapter = new HomeAdapter(new ArrayList<Question>(0));
+        homeAdapter = new HomeAdapter(new ArrayList<Question>(0), onCardClickListener);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        presenter.start();
     }
 
     @Override
@@ -55,12 +57,28 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         return root;
     }
 
+    @Override
     public void showTodayQuestions(List<Question> questionList) {
         homeAdapter.setQuestionList(questionList);
     }
 
     @Override
-    public void setPresenter(HomeContract.Presenter presenter) {
-        this.mPresenter = presenter;
+    public void showAnswersOfAQuestion(Question question) {
+        Intent intent = new Intent(getContext(), AnswerActivity.class);
+        intent.putExtra("QuestionId", question.getQuestionId());
+        startActivity(intent);
     }
+
+    @Override
+    public void setPresenter(HomeContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    private HomeAdapter.OnCardClickListener onCardClickListener = new HomeAdapter.OnCardClickListener() {
+
+        @Override
+        public void onQuestionClicked(Question question) {
+            showAnswersOfAQuestion(question);
+        }
+    };
 }
