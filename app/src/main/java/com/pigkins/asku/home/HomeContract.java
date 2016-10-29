@@ -14,6 +14,7 @@ public interface HomeContract {
     interface View extends BaseView<Presenter> {
         void showTodayQuestions(List<Question> questionList);
         void showAnswersOfAQuestion(Question question);
+        boolean isActive();
     }
 
     interface Presenter extends BasePresenter {

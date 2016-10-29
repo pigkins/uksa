@@ -72,6 +72,11 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     @Override
+    public boolean isActive() {
+        return isAdded();
+    }
+
+    @Override
     public void setPresenter(HomeContract.Presenter presenter) {
         this.presenter = presenter;
     }

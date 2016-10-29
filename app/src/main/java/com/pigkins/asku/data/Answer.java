@@ -8,12 +8,14 @@ public class Answer {
     private String content;
     private int questionId;
     private int answerId;
+    private int userId;
     private int year;
 
-    public Answer(int answerId, int questionId, int year, String content) {
+    public Answer(int answerId, int questionId, int userId, int year, String content) {
         this.content = content;
         this.questionId = questionId;
         this.answerId = answerId;
+        this.userId = userId;
         this.year = year;
     }
 

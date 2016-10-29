@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.pigkins.asku.R;
 import com.pigkins.asku.data.Answer;
-import com.pigkins.asku.data.Question;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +29,8 @@ public class AnswerFragment extends Fragment implements AnswerContract.View {
 
 
     @Override
-    public void showAnswers(List<Answer> answerList) {
-        answerAdapter.setAnswerList(answerList);
+    public void showAnswers(List<AnswerAdapter.AnswerCardContent> answerList) {
+        answerAdapter.setAnswerMapList(answerList);
     }
 
     @Override
@@ -43,7 +42,7 @@ public class AnswerFragment extends Fragment implements AnswerContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        answerAdapter = new AnswerAdapter(new ArrayList<Answer>(0));
+        answerAdapter = new AnswerAdapter(new ArrayList<AnswerAdapter.AnswerCardContent>(0));
     }
 
     @Override

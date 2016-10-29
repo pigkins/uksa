@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface AnswerContract {
     interface View extends BaseView<Presenter> {
-        void showAnswers(List<Answer> answerList);
+        void showAnswers(List<AnswerAdapter.AnswerCardContent> answerList);
     }
 
     interface Presenter extends BasePresenter {

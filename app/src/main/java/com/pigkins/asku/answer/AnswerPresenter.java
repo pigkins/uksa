@@ -23,9 +23,11 @@ public class AnswerPresenter implements AnswerContract.Presenter {
 
     @Override
     public void loadAnswers() {
-        List<Answer> answerList = new ArrayList<>();
+        List<AnswerAdapter.AnswerCardContent> answerList = new ArrayList<>();
         for (int year = 2000; year <= 2016; year++) {
-            answerList.add(new Answer(year, questionId, year, "hahahah "+year));
+            answerList.add(new AnswerAdapter.AnswerCardContent(year,
+                    new Answer(123, 123, 123, 2016, "piggy says blablabla"),
+                    new Answer(234, 234, 234, 2344, "bear says blablabla")));
         }
         answerView.showAnswers(answerList);
     }

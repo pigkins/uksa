@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.pigkins.asku.R;
 import com.pigkins.asku.data.Answer;
-
 import java.util.List;
 
 /**
@@ -17,10 +16,16 @@ import java.util.List;
 
 public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerViewHolder> {
 
-    private List<Answer> answerList;
+    private List<AnswerCardContent> answerCardContentList;
 
-    public AnswerAdapter(List<Answer> answerList) {
-        this.answerList = answerList;
+    public AnswerAdapter(List<AnswerCardContent> answerCardContentList) {
+        this.answerCardContentList = answerCardContentList;
+    }
+
+
+    public void setAnswerMapList(List<AnswerCardContent> list) {
+        this.answerCardContentList = list;
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -31,24 +36,43 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerView
 
     @Override
     public void onBindViewHolder(AnswerViewHolder holder, int position) {
-        holder.answerTextView.setText(answerList.get(position).getContent());
+        final AnswerCardContent answerCardContent = answerCardContentList.get(position);
+        holder.yearTextView.setText(String.valueOf(answerCardContent.year));
+        holder.answerBearyTextView.setText(answerCardContent.bearyAnswer.getContent());
+        holder.answerPiggyTextView.setText(answerCardContent.piggyAnswer.getContent());
     }
 
     @Override
     public int getItemCount() {
-        return answerList.size();
+        return answerCardContentList.size();
     }
 
+
+    // Static classes
     public static class AnswerViewHolder extends RecyclerView.ViewHolder {
-        TextView answerTextView;
+        TextView yearTextView;
+        TextView answerPiggyTextView;
+        TextView answerBearyTextView;
+
         AnswerViewHolder(View itemView) {
             super(itemView);
-            answerTextView = (TextView) itemView.findViewById(R.id.card_answer_text);
+            yearTextView = (TextView) itemView.findViewById(R.id.answer_year);
+            answerPiggyTextView = (TextView) itemView.findViewById(R.id.card_answer_piggy_text);
+            answerBearyTextView = (TextView) itemView.findViewById(R.id.card_answer_bear_text);
         }
     }
 
-    public void setAnswerList(List<Answer> list) {
-        this.answerList = list;
-        this.notifyDataSetChanged();
+
+    public static class AnswerCardContent {
+        public int year;
+        public Answer piggyAnswer;
+        public Answer bearyAnswer;
+
+        AnswerCardContent(int year, Answer piggyAnswer, Answer bearyAnswer) {
+            this.year = year;
+            this.bearyAnswer = bearyAnswer;
+            this.piggyAnswer = piggyAnswer;
+        }
     }
+
 }

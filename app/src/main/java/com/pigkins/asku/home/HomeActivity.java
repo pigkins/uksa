@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.pigkins.asku.R;
+import com.pigkins.asku.data.source.QuestionRepo;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -34,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         // set up presenter
-        homePresenter = new HomePresenter(homeFragment);
+        homePresenter = new HomePresenter(homeFragment, QuestionRepo.getInstance(getApplicationContext()));
     }
 
     @Override

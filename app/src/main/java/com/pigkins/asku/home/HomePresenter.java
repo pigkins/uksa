@@ -1,6 +1,8 @@
 package com.pigkins.asku.home;
 
 import com.pigkins.asku.data.Question;
+import com.pigkins.asku.data.source.QuestionDataSource;
+import com.pigkins.asku.data.source.QuestionRepo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,21 +14,29 @@ import java.util.List;
 public class HomePresenter implements HomeContract.Presenter {
 
     private HomeContract.View homeView;
+    private QuestionRepo questionRepo;
 
-    public HomePresenter(HomeContract.View homeView) {
+    public HomePresenter(HomeContract.View homeView, QuestionRepo questionRepo) {
         this.homeView = homeView;
         this.homeView.setPresenter(this);
+        this.questionRepo = questionRepo;
     }
 
     @Override
     public void loadTodayQuestions() {
-        List<Question> list = new ArrayList<>();
-        for (int month = 1; month <= 12; month++) {
-            for (int day = 1; day <= 30; day++) {
-                list.add(new Question(month * 12 + day, month, day, "What is this" + month + " " + day));
+        questionRepo.loadQuestions(new QuestionDataSource.LoadQuestionsCallback() {
+            @Override
+            public void onQuestionsLoaded(List<Question> questionList) {
+                if (homeView.isActive()) {
+                    homeView.showTodayQuestions(questionList);
+                }
             }
-        }
-        homeView.showTodayQuestions(list);
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
     }
 
     @Override
