@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.pigkins.asku.R;
 import com.pigkins.asku.answer.AnswerActivity;
+import com.pigkins.asku.data.Answer;
 import com.pigkins.asku.data.Question;
 
 import java.util.ArrayList;
@@ -65,7 +66,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     @Override
     public void showAnswersOfAQuestion(Question question) {
         Intent intent = new Intent(getContext(), AnswerActivity.class);
-        intent.putExtra("QuestionId", question.getQuestionId());
+        intent.putExtra(AnswerActivity.EXTRA_QUESTION_CONTENT, question.getContent());
+        intent.putExtra(AnswerActivity.EXTRA_QUESTION_ID, question.getQuestionId());
         startActivity(intent);
     }
 
