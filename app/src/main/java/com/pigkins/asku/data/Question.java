@@ -19,13 +19,17 @@ public class Question {
         this.day = day;
     }
 
-    public String getMonth() {
+    public String getMonthString() {
         return DateFormatSymbols.getInstance().getMonths()[month-1].substring(0,3);
     }
 
-    public String getDay() {
+    public String getDayString() {
         return String.valueOf(day);
     }
+
+    public int getMonth() { return month; }
+
+    public int getDay() { return day; }
 
     public String getContent() {
         return content;
@@ -33,5 +37,10 @@ public class Question {
 
     public int getQuestionId() {
         return questionId;
+    }
+
+    @Override
+    public String toString() {
+        return "Id = " + questionId + " Month = " + month + " Day = " + day + " Question = " + content;
     }
 }

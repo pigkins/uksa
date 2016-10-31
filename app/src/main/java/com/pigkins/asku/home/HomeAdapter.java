@@ -45,8 +45,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.QuestionViewHo
     @Override
     public void onBindViewHolder(QuestionViewHolder holder, int position) {
         final Question question = questionList.get(position);
-        holder.dayTextView.setText(question.getDay());
-        holder.monthTextView.setText(question.getMonth());
+        holder.dayTextView.setText(question.getDayString());
+        holder.monthTextView.setText(question.getMonthString());
         holder.contentTextView.setText(question.getContent());
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
