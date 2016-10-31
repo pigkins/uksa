@@ -11,7 +11,7 @@ import com.pigkins.asku.data.Question;
  */
 
 public class QuestionDBHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 7;
 
     public static final String DATABASE_NAME = "Questions.db";
 
