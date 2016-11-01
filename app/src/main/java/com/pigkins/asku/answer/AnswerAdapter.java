@@ -4,10 +4,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pigkins.asku.R;
 import com.pigkins.asku.data.Answer;
+
 import java.util.List;
 
 /**
@@ -16,15 +18,18 @@ import java.util.List;
 
 public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerViewHolder> {
 
-    private List<AnswerCardContent> answerCardContentList;
+    public static int PIGGY_USERID = 3;
+    public static int BEAR_USERID = 4;
 
-    public AnswerAdapter(List<AnswerCardContent> answerCardContentList) {
-        this.answerCardContentList = answerCardContentList;
+    private List<Answer> answerList;
+
+    public AnswerAdapter(List<Answer> answerList) {
+        this.answerList = answerList;
     }
 
 
-    public void setAnswerMapList(List<AnswerCardContent> list) {
-        this.answerCardContentList = list;
+    public void setAnswerMapList(List<Answer> list) {
+        this.answerList = list;
         this.notifyDataSetChanged();
     }
 
@@ -36,43 +41,35 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerView
 
     @Override
     public void onBindViewHolder(AnswerViewHolder holder, int position) {
-        final AnswerCardContent answerCardContent = answerCardContentList.get(position);
-        holder.yearTextView.setText(String.valueOf(answerCardContent.year));
-        holder.answerBearyTextView.setText(answerCardContent.bearyAnswer.getContent());
-        holder.answerPiggyTextView.setText(answerCardContent.piggyAnswer.getContent());
+        final Answer answer = answerList.get(position);
+        holder.yearTextView.setText(answer.getYearString());
+        holder.contentTextView.setText(answer.getContent());
+        if (answer.getUserId() == PIGGY_USERID) {
+            holder.iconImageView.setImageResource(R.drawable.ic_piggy);
+        } else if (answer.getUserId() == BEAR_USERID) {
+            holder.iconImageView.setImageResource(R.drawable.ic_bear);
+        } else {
+            holder.iconImageView.setImageResource(R.drawable.ic_today_black_24dp);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return answerCardContentList.size();
+        return answerList.size();
     }
 
 
     // Static classes
     public static class AnswerViewHolder extends RecyclerView.ViewHolder {
         TextView yearTextView;
-        TextView answerPiggyTextView;
-        TextView answerBearyTextView;
+        TextView contentTextView;
+        ImageView iconImageView;
 
         AnswerViewHolder(View itemView) {
             super(itemView);
-            yearTextView = (TextView) itemView.findViewById(R.id.answer_year);
-            answerPiggyTextView = (TextView) itemView.findViewById(R.id.card_answer_piggy_text);
-            answerBearyTextView = (TextView) itemView.findViewById(R.id.card_answer_bear_text);
+            yearTextView = (TextView) itemView.findViewById(R.id.card_answer_year);
+            iconImageView = (ImageView) itemView.findViewById(R.id.card_answer_icon);
+            contentTextView = (TextView) itemView.findViewById(R.id.card_answer_text);
         }
     }
-
-
-    public static class AnswerCardContent {
-        public int year;
-        public Answer piggyAnswer;
-        public Answer bearyAnswer;
-
-        AnswerCardContent(int year, Answer piggyAnswer, Answer bearyAnswer) {
-            this.year = year;
-            this.bearyAnswer = bearyAnswer;
-            this.piggyAnswer = piggyAnswer;
-        }
-    }
-
 }

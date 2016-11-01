@@ -29,7 +29,7 @@ public class AnswerFragment extends Fragment implements AnswerContract.View {
 
 
     @Override
-    public void showAnswers(List<AnswerAdapter.AnswerCardContent> answerList) {
+    public void showAnswers(List<Answer> answerList) {
         answerAdapter.setAnswerMapList(answerList);
     }
 
@@ -42,7 +42,7 @@ public class AnswerFragment extends Fragment implements AnswerContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        answerAdapter = new AnswerAdapter(new ArrayList<AnswerAdapter.AnswerCardContent>(0));
+        answerAdapter = new AnswerAdapter(new ArrayList<Answer>(0));
     }
 
     @Override

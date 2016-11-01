@@ -1,13 +1,12 @@
 package com.pigkins.asku.answer;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.pigkins.asku.R;
-import com.pigkins.asku.data.Answer;
-import com.pigkins.asku.data.Question;
+import com.pigkins.asku.data.source.AnswerRepo;
 
 public class AnswerActivity extends AppCompatActivity {
 
@@ -40,7 +39,7 @@ public class AnswerActivity extends AppCompatActivity {
             transaction.commit();
         }
 
-        presenter = new AnswerPresenter(answerFragment, questionId);
+        presenter = new AnswerPresenter(answerFragment, questionId, AnswerRepo.getInstance(getApplicationContext()));
 
     }
 }

@@ -23,7 +23,11 @@ public class Answer {
         return content;
     }
 
-    public String getYear() {
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getYearString() {
         return String.valueOf(year);
     }
 }

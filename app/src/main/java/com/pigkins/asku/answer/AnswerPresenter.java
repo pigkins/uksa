@@ -1,9 +1,9 @@
 package com.pigkins.asku.answer;
 
 import com.pigkins.asku.data.Answer;
-import com.pigkins.asku.data.Question;
+import com.pigkins.asku.data.source.AnswerDataSource;
+import com.pigkins.asku.data.source.AnswerRepo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,8 +14,10 @@ public class AnswerPresenter implements AnswerContract.Presenter {
 
     private AnswerContract.View answerView;
     private int questionId;
+    private AnswerRepo answerRepo;
 
-    public AnswerPresenter(AnswerContract.View answerView, int questionId) {
+    public AnswerPresenter(AnswerContract.View answerView, int questionId, AnswerRepo answerRepo) {
+        this.answerRepo = answerRepo;
         this.questionId = questionId;
         this.answerView = answerView;
         this.answerView.setPresenter(this);
@@ -23,13 +25,17 @@ public class AnswerPresenter implements AnswerContract.Presenter {
 
     @Override
     public void loadAnswers() {
-        List<AnswerAdapter.AnswerCardContent> answerList = new ArrayList<>();
-        for (int year = 2000; year <= 2016; year++) {
-            answerList.add(new AnswerAdapter.AnswerCardContent(year,
-                    new Answer(123, 123, 123, 2016, "piggy says blablabla"),
-                    new Answer(234, 234, 234, 2344, "bear says blablabla")));
-        }
-        answerView.showAnswers(answerList);
+        answerRepo.loadSingleQuestionAnswers(questionId, new AnswerDataSource.LoadAnswerCallback() {
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+
+            @Override
+            public void onAnswerLoaded(List<Answer> answerList) {
+                answerView.showAnswers(answerList);
+            }
+        });
     }
 
     @Override

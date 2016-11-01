@@ -9,6 +9,7 @@ import java.util.List;
  */
 
 public interface QuestionDataSource {
+
     interface LoadQuestionsCallback {
 
         void onQuestionsLoaded(List<Question> questionList);
