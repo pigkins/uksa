@@ -12,6 +12,7 @@ public final class AnswerDBContract {
 
     public static abstract class AnswerEntry implements BaseColumns {
         public static final String TABLE_NAME = "answer";
+        public static final String COLUMN_NAME_AID = "answerid";
         public static final String COLUMN_NAME_QID = "questionid";
         public static final String COLUMN_NAME_UID = "userid";
         public static final String COLUMN_NAME_YEAR = "year";

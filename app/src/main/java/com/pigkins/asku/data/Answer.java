@@ -27,6 +27,18 @@ public class Answer {
         return userId;
     }
 
+    public int getAnswerId() {
+        return answerId;
+    }
+
+    public int getQuestionId() {
+        return questionId;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
     public String getYearString() {
         return String.valueOf(year);
     }

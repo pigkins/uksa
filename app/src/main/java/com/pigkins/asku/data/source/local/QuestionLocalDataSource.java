@@ -1,20 +1,14 @@
 package com.pigkins.asku.data.source.local;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.util.Log;
 
-import com.pigkins.asku.R;
 import com.pigkins.asku.data.Question;
 import com.pigkins.asku.data.source.QuestionDataSource;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,15 +49,7 @@ public class QuestionLocalDataSource implements QuestionDataSource {
         Thread readDBThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                final List<Question> questions;
-                List<Question> listFromDB = readQuestionFromDB();
-                if (listFromDB == null) {
-                    Log.d(this.getClass().getSimpleName(), "DB is empty, reading question from resource.");
-                    questions = readQuestionFromResource(context);
-                    updateQuestionDB(questions);
-                } else {
-                    questions = listFromDB;
-                }
+                final List<Question> questions = readQuestionFromDB();
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -80,7 +66,7 @@ public class QuestionLocalDataSource implements QuestionDataSource {
         Log.d(this.getClass().getSimpleName(), "Read  Questions from SQLite.");
 
         String[] projection = {
-                QuestionDBContract.QuestionEntry._ID,
+                QuestionDBContract.QuestionEntry.COLUMN_NAME_QID,
                 QuestionDBContract.QuestionEntry.COLUMN_NAME_MONTH,
                 QuestionDBContract.QuestionEntry.COLUMN_NAME_DAY,
                 QuestionDBContract.QuestionEntry.COLUMN_NAME_CONTENT
@@ -106,7 +92,7 @@ public class QuestionLocalDataSource implements QuestionDataSource {
 
         List<Question> questions = new ArrayList<>();
         do {
-            Question question = new Question(c.getInt(c.getColumnIndexOrThrow(QuestionDBContract.QuestionEntry._ID)),
+            Question question = new Question(c.getInt(c.getColumnIndexOrThrow(QuestionDBContract.QuestionEntry.COLUMN_NAME_QID)),
                     c.getInt(c.getColumnIndexOrThrow(QuestionDBContract.QuestionEntry.COLUMN_NAME_MONTH)),
                     c.getInt(c.getColumnIndexOrThrow(QuestionDBContract.QuestionEntry.COLUMN_NAME_DAY)),
                     c.getString(c.getColumnIndexOrThrow(QuestionDBContract.QuestionEntry.COLUMN_NAME_CONTENT)));
@@ -115,41 +101,5 @@ public class QuestionLocalDataSource implements QuestionDataSource {
         c.close();
         db.close();
         return questions;
-    }
-
-    public void updateQuestionDB(List<Question> questionList) {
-        Log.d(this.getClass().getSimpleName(), "Update Questions read from the resource file.");
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.beginTransaction();
-        for (Question question: questionList) {
-            ContentValues insertValues = new ContentValues();
-            insertValues.put(QuestionDBContract.QuestionEntry.COLUMN_NAME_MONTH, question.getMonth());
-            insertValues.put(QuestionDBContract.QuestionEntry.COLUMN_NAME_DAY, question.getDay());
-            insertValues.put(QuestionDBContract.QuestionEntry.COLUMN_NAME_CONTENT, question.getContent());
-            db.insert(QuestionDBContract.QuestionEntry.TABLE_NAME, null, insertValues);
-        }
-        db.setTransactionSuccessful();
-        db.endTransaction();
-        db.close();
-    }
-
-    public List<Question> readQuestionFromResource(Context context) {
-        Log.d(this.getClass().getSimpleName(), "Read Questions from the resource file.");
-        List<Question> questions = new ArrayList<>();
-        try {
-            InputStream inputStream = context.getResources().openRawResource(R.raw.questions);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] tokens = line.split("\\|");
-                Question question  = new Question(0, Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), tokens[2]);
-                questions.add(question);
-            }
-        } catch (IOException e) {
-            Log.d(this.getClass().getSimpleName(), "Exception when reading raw question list.");
-            Log.d(this.getClass().getSimpleName(), e.getMessage());
-        } finally {
-            return questions;
-        }
     }
 }

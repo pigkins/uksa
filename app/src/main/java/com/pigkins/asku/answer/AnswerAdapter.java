@@ -12,14 +12,14 @@ import com.pigkins.asku.data.Answer;
 
 import java.util.List;
 
+import static com.pigkins.asku.data.Constants.BEAR_USERID;
+import static com.pigkins.asku.data.Constants.PIGGY_USERID;
+
 /**
  * Created by qding on 10/28/16.
  */
 
 public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerViewHolder> {
-
-    public static int PIGGY_USERID = 3;
-    public static int BEAR_USERID = 4;
 
     private List<Answer> answerList;
 
