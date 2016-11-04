@@ -42,4 +42,9 @@ public class Answer {
     public String getYearString() {
         return String.valueOf(year);
     }
+
+    @Override
+    public String toString() {
+        return "AnswerId = " + answerId + " QuestionId =" + questionId + " UserId = " + userId + " Year = " + year + " Content = " + content;
+    }
 }

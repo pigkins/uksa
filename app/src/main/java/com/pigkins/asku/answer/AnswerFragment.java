@@ -20,13 +20,24 @@ import java.util.List;
 
 public class AnswerFragment extends Fragment implements AnswerContract.View {
 
+    private static final String ARGUMENT_QID = "QUESTION_ID";
+    private static final String ARGUMENT_UID = "USER_ID";
+
     private AnswerAdapter answerAdapter;
     private RecyclerView recyclerView;
     private AnswerContract.Presenter presenter;
 
-    public AnswerFragment() {}
-    public static AnswerFragment newInstance() { return new AnswerFragment(); }
 
+    public AnswerFragment() {}
+
+    public static AnswerFragment newInstance(int questionId, int userId) {
+        Bundle arguments = new Bundle();
+        arguments.putInt(ARGUMENT_QID, questionId);
+        arguments.putInt(ARGUMENT_UID, userId);
+        AnswerFragment fragment = new AnswerFragment();
+        fragment.setArguments(arguments);
+        return fragment;
+    }
 
     @Override
     public void showAnswers(List<Answer> answerList) {
@@ -35,6 +46,7 @@ public class AnswerFragment extends Fragment implements AnswerContract.View {
 
     @Override
     public void setPresenter(AnswerContract.Presenter presenter) {
+        // TODO(qding): need to check null.
         this.presenter = presenter;
     }
 
@@ -42,7 +54,9 @@ public class AnswerFragment extends Fragment implements AnswerContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        answerAdapter = new AnswerAdapter(new ArrayList<Answer>(0));
+        int questionId = this.getArguments().getInt(ARGUMENT_QID);
+        int userId = this.getArguments().getInt(ARGUMENT_UID);
+        answerAdapter = new AnswerAdapter(new ArrayList<Answer>(0), questionId, userId, onItemClickListener);
     }
 
     @Override
@@ -60,5 +74,14 @@ public class AnswerFragment extends Fragment implements AnswerContract.View {
         recyclerView.setAdapter(answerAdapter);
         return root;
     }
+
+    private AnswerAdapter.OnItemClickListener onItemClickListener = new AnswerAdapter.OnItemClickListener() {
+        @Override
+        public void onSaveButtonClicked(Answer answer) {
+            if (AnswerFragment.this.presenter != null && answer != null) {
+                AnswerFragment.this.presenter.saveAnswer(answer);
+            }
+        }
+    };
 
 }

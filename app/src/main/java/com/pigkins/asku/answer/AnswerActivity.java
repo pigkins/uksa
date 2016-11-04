@@ -6,12 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.pigkins.asku.R;
+import com.pigkins.asku.data.Constants;
 import com.pigkins.asku.data.source.AnswerRepo;
 
 public class AnswerActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private AnswerPresenter presenter;
 
     public static final String EXTRA_QUESTION_ID = "QUESTION_ID";
     public static final String EXTRA_QUESTION_CONTENT = "QUESTION_CONTENT";
@@ -23,6 +23,8 @@ public class AnswerActivity extends AppCompatActivity {
 
         String questionContent = getIntent().getStringExtra(EXTRA_QUESTION_CONTENT);
         int questionId = getIntent().getIntExtra(EXTRA_QUESTION_ID, 0);
+        // TODO(qding): fetch userid from activity.
+        int userId = Constants.BEAR_USERID;
 
         toolbar = (Toolbar) findViewById(R.id.answer_toolbar);
         setSupportActionBar(toolbar);
@@ -32,14 +34,13 @@ public class AnswerActivity extends AppCompatActivity {
         // set up fragment
         AnswerFragment answerFragment = (AnswerFragment) getSupportFragmentManager().findFragmentById(R.id.answer_fragment);
         if (answerFragment == null) {
-            answerFragment = AnswerFragment.newInstance();
-            answerFragment.setArguments(getIntent().getExtras());
+            answerFragment = AnswerFragment.newInstance(questionId, userId);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.answer_fragment, answerFragment);
             transaction.commit();
         }
 
-        presenter = new AnswerPresenter(answerFragment, questionId, AnswerRepo.getInstance(getApplicationContext()));
+        new AnswerPresenter(answerFragment, questionId, userId, AnswerRepo.getInstance(getApplicationContext()));
 
     }
 }

@@ -17,5 +17,11 @@ public interface AnswerContract {
 
     interface Presenter extends BasePresenter {
         void loadAnswers();
+
+        void saveAnswer(Answer answer);
+
+        int getQuestionId();
+
+        int getUserId();
     }
 }
