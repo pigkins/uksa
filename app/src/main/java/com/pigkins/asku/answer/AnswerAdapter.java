@@ -34,6 +34,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private int thisYear;
     private int userId;
     private int questionId;
+    private boolean answered; // This year's answer
 
 
     public static int EDIT_ANSWER_CARD = 1;
@@ -45,11 +46,18 @@ public class AnswerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.questionId = questionId;
         this.onItemClickListener = onItemClickListener;
         this.thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        this.answered = false;
     }
 
 
     public void setAnswerMapList(List<Answer> list) {
         this.answerList = list;
+        for (Answer answer : list) {
+            if (answer.getUserId() == userId && answer.getYear() == thisYear) {
+                answered = true;
+                break;
+            }
+        }
         this.notifyDataSetChanged();
     }
 
@@ -103,7 +111,11 @@ public class AnswerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemCount() {
         // +1 for the edit view
-        return answerList.size() + 1;
+        int itemCount = answerList.size();
+        if (!answered) {
+            itemCount += 1;
+        }
+        return itemCount;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.pigkins.asku.data.source;
 
 import android.content.Context;
 
+import com.pigkins.asku.data.Answer;
 import com.pigkins.asku.data.source.local.AnswerLocalDataSource;
 
 /**
@@ -28,5 +29,10 @@ public class AnswerRepo implements AnswerDataSource {
     @Override
     public void loadSingleQuestionAnswers(int questionId, LoadAnswerCallback callback) {
         answerLocalDataSource.loadSingleQuestionAnswers(questionId, callback);
+    }
+
+    @Override
+    public void saveAnswer(Answer answer, SaveAnswerCallback callback) {
+        answerLocalDataSource.saveAnswer(answer, callback);
     }
 }

@@ -1,31 +1,31 @@
-1|1|Love is ______.
-1|2|Make a new year resolution.
-1|3|What feels vitally important right now?
-1|4|Who inspires you?
-1|5|When's the last time your partner made you laugh out loud?
-1|6|Today was surprising because ______.
-1|7|What is your Achilles heel?
-1|8|What are you ready to release?
-1|9|If I had to describe you in a single word, it would be ______.
-1|10|What's worth celebrating today?
-1|11|Describe the last meal you enjoyed together.
-1|12|I'd be completely shocked if you ______.
-1|13|Which famous couple would you like to double-date?
-1|14|Jot down one positive change you've already made this year.
-1|15|What irritates you?
-1|16|Write down the kindest thing your partner has said to you lately.
-1|17|What are your top three wishes?
-1|18|I love it when you wear ______.
-1|19|What's your weekday-morning ritual?
-1|20|Out of the two of you, who's feeling more optimistic today?
-1|21|Can you remember the last time your partner appeared in your dream?
-1|22|Coffe, juice, tea or ______.
-1|23|In a hundred years, how would you like to be remembered?
-1|24|If you started a company together, what would it be?
-1|25|If you were to make a playlist for your partner, what would the title be?
-1|26|Who feels more secure at work right now: you or your partner?
-1|27|What's the nicest compliment you've received lately?
-1|28|Which celebrity would you like to invite over for the weekend? (Would your partner enjoy their company too?)
-1|29|Being with you feels like ______.
-1|30|What would you like to master?
-1|31|If you could give your partner a superpower, what would it be?
+10000|1|1|Love is ______.
+10001|1|2|Make a new year resolution.
+10002|1|3|What feels vitally important right now?
+10003|1|4|Who inspires you?
+10004|1|5|When's the last time your partner made you laugh out loud?
+10005|1|6|Today was surprising because ______.
+10006|1|7|What is your Achilles heel?
+10007|1|8|What are you ready to release?
+10008|1|9|If I had to describe you in a single word, it would be ______.
+10009|1|10|What's worth celebrating today?
+10010|1|11|Describe the last meal you enjoyed together.
+10011|1|12|I'd be completely shocked if you ______.
+10012|1|13|Which famous couple would you like to double-date?
+10013|1|14|Jot down one positive change you've already made this year.
+10014|1|15|What irritates you?
+10015|1|16|Write down the kindest thing your partner has said to you lately.
+10016|1|17|What are your top three wishes?
+10017|1|18|I love it when you wear _____.
+10018|1|19|What's your weekday-morning ritual?
+10019|1|20|Out of the two of you, who's feeling more optimistic today?
+10020|1|21|Can you remember the last time your partner appeared in your dream?
+10021|1|22|Coffe, juice, tea or ______.
+10022|1|23|In a hundred years, how would you like to be remembered?
+10023|1|24|If you started a company together, what would it be?
+10024|1|25|If you were to make a playlist for your partner, what would the title be?
+10025|1|26|Who feels more secure at work right now: you or your partner?
+10026|1|27|What's the nicest compliment you've received lately?
+10027|1|28|Which celebrity would you like to invite over for the weekend? (Would your partner enjoy their company too?)
+10028|1|29|Being with you feels like ______.
+10029|1|30|What would you like to master?
+10030|1|31|If you could give your partner a superpower, what would it be?

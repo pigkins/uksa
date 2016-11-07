@@ -54,8 +54,19 @@ public class AnswerPresenter implements AnswerContract.Presenter {
     }
 
     @Override
-    public void saveAnswer(Answer answer) {
+    public void saveAnswer(final Answer answer) {
         Log.d(this.getClass().getSimpleName(), "Saving Answer = " + answer.toString());
+        answerRepo.saveAnswer(answer, new AnswerDataSource.SaveAnswerCallback() {
+            @Override
+            public void onSaveSuccess(long answerId) {
+                Log.d(this.getClass().getSimpleName(), "Success and row id = " + answerId);
+            }
+
+            @Override
+            public void onSaveFailure() {
+                Log.d(this.getClass().getSimpleName(), "Failure");
+            }
+        });
     }
 
     @Override

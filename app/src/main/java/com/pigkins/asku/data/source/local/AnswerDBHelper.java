@@ -22,7 +22,7 @@ import java.util.List;
  */
 
 public class AnswerDBHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
 
     public static final String DATABASE_NAME = "Answer.db";
 
@@ -35,7 +35,6 @@ public class AnswerDBHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + AnswerDBContract.AnswerEntry.TABLE_NAME + " (" +
                     AnswerDBContract.AnswerEntry._ID + INTEGER_TYPE + " PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
-                    AnswerDBContract.AnswerEntry.COLUMN_NAME_AID + INTEGER_TYPE + COMMA_SEP +
                     AnswerDBContract.AnswerEntry.COLUMN_NAME_QID + INTEGER_TYPE + COMMA_SEP +
                     AnswerDBContract.AnswerEntry.COLUMN_NAME_UID + INTEGER_TYPE + COMMA_SEP +
                     AnswerDBContract.AnswerEntry.COLUMN_NAME_YEAR + INTEGER_TYPE + COMMA_SEP +
@@ -71,7 +70,6 @@ public class AnswerDBHelper extends SQLiteOpenHelper {
         for (List<Answer> answerList : answerListMap.values()) {
             for (Answer answer : answerList) {
                 ContentValues insertValues = new ContentValues();
-                insertValues.put(AnswerDBContract.AnswerEntry.COLUMN_NAME_AID, answer.getAnswerId());
                 insertValues.put(AnswerDBContract.AnswerEntry.COLUMN_NAME_UID, answer.getUserId());
                 insertValues.put(AnswerDBContract.AnswerEntry.COLUMN_NAME_QID, answer.getQuestionId());
                 insertValues.put(AnswerDBContract.AnswerEntry.COLUMN_NAME_YEAR, answer.getYear());
@@ -92,12 +90,10 @@ public class AnswerDBHelper extends SQLiteOpenHelper {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] tokens = line.split("\\|");
-                Log.d("TMP2", line);
-                int answerId = Integer.parseInt(tokens[0]);
-                int questionId = Integer.parseInt(tokens[1]);
-                int userId = Integer.parseInt(tokens[2]);
-                int year = Integer.parseInt(tokens[3]);
-                Answer answer = new Answer(answerId, questionId, userId, year, tokens[4]);
+                int questionId = Integer.parseInt(tokens[0]);
+                int userId = Integer.parseInt(tokens[1]);
+                int year = Integer.parseInt(tokens[2]);
+                Answer answer = new Answer(0, questionId, userId, year, tokens[3]);
                 if (answers.containsKey(questionId)) {
                     answers.get(questionId).add(answer);
                 } else {

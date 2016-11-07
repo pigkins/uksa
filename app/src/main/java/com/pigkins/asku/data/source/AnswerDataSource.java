@@ -16,4 +16,12 @@ public interface AnswerDataSource {
     }
 
     void loadSingleQuestionAnswers(int questionId, LoadAnswerCallback callback);
+
+    interface SaveAnswerCallback {
+        void onSaveSuccess(long answerId);
+
+        void onSaveFailure();
+    }
+
+    void saveAnswer(Answer answer, SaveAnswerCallback callback);
 }

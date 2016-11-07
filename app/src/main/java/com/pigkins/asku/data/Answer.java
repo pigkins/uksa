@@ -11,6 +11,7 @@ public class Answer {
     private int userId;
     private int year;
 
+
     public Answer(int answerId, int questionId, int userId, int year, String content) {
         this.content = content;
         this.questionId = questionId;
