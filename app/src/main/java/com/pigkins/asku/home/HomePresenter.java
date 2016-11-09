@@ -4,7 +4,6 @@ import com.pigkins.asku.data.Question;
 import com.pigkins.asku.data.source.QuestionDataSource;
 import com.pigkins.asku.data.source.QuestionRepo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,11 +14,13 @@ public class HomePresenter implements HomeContract.Presenter {
 
     private HomeContract.View homeView;
     private QuestionRepo questionRepo;
+    private int userId;
 
-    public HomePresenter(HomeContract.View homeView, QuestionRepo questionRepo) {
+    public HomePresenter(HomeContract.View homeView, QuestionRepo questionRepo, int userId) {
         this.homeView = homeView;
         this.homeView.setPresenter(this);
         this.questionRepo = questionRepo;
+        this.userId = userId;
     }
 
     @Override
@@ -28,7 +29,7 @@ public class HomePresenter implements HomeContract.Presenter {
             @Override
             public void onQuestionsLoaded(List<Question> questionList) {
                 if (homeView.isActive()) {
-                    homeView.showTodayQuestions(questionList);
+                    homeView.showTodayQuestions(questionList, userId);
                 }
             }
 
@@ -37,6 +38,11 @@ public class HomePresenter implements HomeContract.Presenter {
 
             }
         });
+    }
+
+    @Override
+    public void scrollToQuestion(int month, int day) {
+        homeView.scrollToParticularQuestion(month, day);
     }
 
     @Override

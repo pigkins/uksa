@@ -35,7 +35,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:text="Type your answer here"
                 android:ems="10"
                 android:layout_alignParentTop="true"
                 android:id="@+id/card_answer_edit"
@@ -46,11 +45,12 @@
                 android:layout_toLeftOf="@+id/card_answer_save"
                 android:layout_toStartOf="@+id/card_answer_save"
                 android:textAppearance="@android:style/TextAppearance.Material.Small"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:hint="Type your answer here" />
 
             <ImageView
-                android:layout_width="@dimen/card_height"
-                android:layout_height="@dimen/card_height"
+                android:layout_width="@dimen/card_height_half"
+                android:layout_height="@dimen/card_height_half"
                 app:srcCompat="@drawable/ic_save_button"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"

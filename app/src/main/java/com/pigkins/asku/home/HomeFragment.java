@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.pigkins.asku.R;
 import com.pigkins.asku.answer.AnswerActivity;
-import com.pigkins.asku.data.Answer;
 import com.pigkins.asku.data.Question;
 
 import java.util.ArrayList;
@@ -59,16 +59,26 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     @Override
-    public void showTodayQuestions(List<Question> questionList) {
+    public void showTodayQuestions(List<Question> questionList, int userId) {
+        homeAdapter.setUserId(userId);
         homeAdapter.setQuestionList(questionList);
     }
 
     @Override
-    public void showAnswersOfAQuestion(Question question) {
+    public void showAnswersOfAQuestion(Question question, int userId) {
         Intent intent = new Intent(getContext(), AnswerActivity.class);
         intent.putExtra(AnswerActivity.EXTRA_QUESTION_CONTENT, question.getContent());
         intent.putExtra(AnswerActivity.EXTRA_QUESTION_ID, question.getQuestionId());
+        intent.putExtra(AnswerActivity.EXTRA_USER_ID, userId);
         startActivity(intent);
+    }
+
+    @Override
+    public void scrollToParticularQuestion(int month, int day) {
+        Log.d(getClass().getSimpleName(), "month = " + month + " day = " + day);
+        int position = homeAdapter.getPositionMonthAndDay(month, day);
+        Log.d(getClass().getSimpleName(), "position = " + position);
+        ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
     }
 
     @Override
@@ -82,10 +92,9 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     private HomeAdapter.OnCardClickListener onCardClickListener = new HomeAdapter.OnCardClickListener() {
-
         @Override
-        public void onQuestionClicked(Question question) {
-            showAnswersOfAQuestion(question);
+        public void onQuestionClicked(Question question, int userId) {
+            showAnswersOfAQuestion(question, userId);
         }
     };
 }

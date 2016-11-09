@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import com.pigkins.asku.R;
 import com.pigkins.asku.data.Question;
 
@@ -20,11 +19,16 @@ import java.util.List;
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.QuestionViewHolder> {
 
     public interface OnCardClickListener {
-        void onQuestionClicked(Question question);
+        void onQuestionClicked(Question question, int userId);
     }
 
+    private int userId;
     private List<Question> questionList;
     private OnCardClickListener onCardClickListener;
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public void setQuestionList(List<Question> questionList) {
         this.questionList = questionList;
@@ -32,8 +36,20 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.QuestionViewHo
     }
 
     public HomeAdapter(List<Question> questionList, OnCardClickListener onCardClickListener) {
+        this.userId = 0;
         this.questionList = questionList;
         this.onCardClickListener = onCardClickListener;
+    }
+
+    public int getPositionMonthAndDay(int month, int day) {
+        int pos = 0;
+        for (Question question : questionList) {
+            if (question.getDay() == day && question.getMonth() == month) {
+                return pos;
+            }
+            pos += 1;
+        }
+        return pos;
     }
 
     @Override
@@ -52,7 +68,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.QuestionViewHo
             @Override
             public void onClick(View v) {
                 if (HomeAdapter.this.onCardClickListener != null) {
-                    HomeAdapter.this.onCardClickListener.onQuestionClicked(question);
+                    HomeAdapter.this.onCardClickListener.onQuestionClicked(question, userId);
                 }
             }
         });

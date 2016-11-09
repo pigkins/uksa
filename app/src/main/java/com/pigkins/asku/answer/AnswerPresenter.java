@@ -60,6 +60,7 @@ public class AnswerPresenter implements AnswerContract.Presenter {
             @Override
             public void onSaveSuccess(long answerId) {
                 Log.d(this.getClass().getSimpleName(), "Success and row id = " + answerId);
+                answerView.updateThisYearAnswer(answer);
             }
 
             @Override

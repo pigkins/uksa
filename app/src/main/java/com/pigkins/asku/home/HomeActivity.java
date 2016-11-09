@@ -1,19 +1,25 @@
 package com.pigkins.asku.home;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.pigkins.asku.R;
 import com.pigkins.asku.data.source.QuestionRepo;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements AccountChooserFragment.AccountChooserDialogListener, DatePickerFragment.DatePickDialogListener {
 
     private Toolbar toolbar;
     private HomePresenter homePresenter;
+
+    public static final String ACTIVITY_UID = "USER_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,18 +30,14 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // set up fragment
-        HomeFragment homeFragment =
-                (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (homeFragment == null) {
-            homeFragment = HomeFragment.newInstance();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.contentFrame, homeFragment);
-            transaction.commit();
+        // Get user
+        int userId = getUserIdFromPref();
+        if (userId == -1) {
+            DialogFragment dialogFragment = new AccountChooserFragment();
+            dialogFragment.show(getSupportFragmentManager(), "accountchooser");
+        } else {
+            setUpHomeFragment(userId);
         }
-
-        // set up presenter
-        homePresenter = new HomePresenter(homeFragment, QuestionRepo.getInstance(getApplicationContext()));
     }
 
     @Override
@@ -57,6 +59,50 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.action_pickday) {
+            DialogFragment dialogFragment = new DatePickerFragment();
+            dialogFragment.show(getSupportFragmentManager(), "pickaday");
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onUserSelected(int which) {
+        // check index
+        int userId = getResources().getIntArray(R.array.userids)[which];
+        Log.d(getClass().getSimpleName(), "Getting userid = " + userId);
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(ACTIVITY_UID, userId);
+        editor.commit();
+        setUpHomeFragment(userId);
+    }
+
+    int getUserIdFromPref() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        return sharedPref.getInt(ACTIVITY_UID, -1);
+    }
+
+    void setUpHomeFragment(int userId) {
+        // set up fragment
+        Log.d(getClass().getSimpleName(), "Creating fragment with userid = " + userId);
+
+        HomeFragment homeFragment =
+                (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (homeFragment == null) {
+            homeFragment = HomeFragment.newInstance();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.contentFrame, homeFragment);
+            transaction.commit();
+        }
+
+        // set up presenter
+        homePresenter = new HomePresenter(homeFragment, QuestionRepo.getInstance(getApplicationContext()), userId);
+    }
+
+    @Override
+    public void onDateSelected(int month, int day) {
+        homePresenter.scrollToQuestion(month, day);
     }
 }

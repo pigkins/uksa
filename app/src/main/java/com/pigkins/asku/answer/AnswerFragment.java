@@ -45,6 +45,11 @@ public class AnswerFragment extends Fragment implements AnswerContract.View {
     }
 
     @Override
+    public void updateThisYearAnswer(Answer answer) {
+        answerAdapter.setThisYearAnswer(answer);
+    }
+
+    @Override
     public void setPresenter(AnswerContract.Presenter presenter) {
         // TODO(qding): need to check null.
         this.presenter = presenter;

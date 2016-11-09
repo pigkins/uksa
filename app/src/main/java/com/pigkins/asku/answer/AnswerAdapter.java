@@ -1,6 +1,7 @@
 package com.pigkins.asku.answer;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,14 @@ public class AnswerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.answered = false;
     }
 
+    public void setThisYearAnswer(Answer answer) {
+        if (!this.answered) {
+            int position = this.answerList.size();
+            this.answerList.add(answer);
+            this.answered = true;
+            this.notifyItemChanged(position);
+        }
+    }
 
     public void setAnswerMapList(List<Answer> list) {
         this.answerList = list;
@@ -88,6 +97,13 @@ public class AnswerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ((AnswerViewHolder) holder).iconImageView.setImageResource(R.drawable.ic_today_black_24dp);
             }
         } else if (itemType == EDIT_ANSWER_CARD) {
+            if (this.userId == PIGGY_USERID) {
+                ((EditAnswerViewHolder) holder).iconImageView.setImageResource(R.drawable.ic_piggy);
+            } else if (this.userId == BEAR_USERID) {
+                Log.d("TMP WTF", "WTFFFFFFFFFFFFFFFF");
+                ((EditAnswerViewHolder) holder).iconImageView.setImageResource(R.drawable.ic_bear);
+            }
+
             final EditText editText = ((EditAnswerViewHolder) holder).editTextView;
             ((EditAnswerViewHolder) holder).saveImageView.setOnClickListener(new View.OnClickListener() {
 

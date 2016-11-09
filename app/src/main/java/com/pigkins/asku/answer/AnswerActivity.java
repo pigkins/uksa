@@ -4,15 +4,16 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.pigkins.asku.R;
-import com.pigkins.asku.data.Constants;
 import com.pigkins.asku.data.source.AnswerRepo;
 
 public class AnswerActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
+    public static final String EXTRA_USER_ID = "USER_ID";
     public static final String EXTRA_QUESTION_ID = "QUESTION_ID";
     public static final String EXTRA_QUESTION_CONTENT = "QUESTION_CONTENT";
 
@@ -23,8 +24,9 @@ public class AnswerActivity extends AppCompatActivity {
 
         String questionContent = getIntent().getStringExtra(EXTRA_QUESTION_CONTENT);
         int questionId = getIntent().getIntExtra(EXTRA_QUESTION_ID, 0);
-        // TODO(qding): fetch userid from activity.
-        int userId = Constants.BEAR_USERID;
+        int userId = getIntent().getIntExtra(EXTRA_USER_ID, 0);
+
+        Log.d(this.getClass().getSimpleName(), "Qid = " + questionId + " and Uid = " + userId);
 
         toolbar = (Toolbar) findViewById(R.id.answer_toolbar);
         setSupportActionBar(toolbar);

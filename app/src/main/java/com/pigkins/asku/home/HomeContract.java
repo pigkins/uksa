@@ -12,12 +12,17 @@ import java.util.List;
 
 public interface HomeContract {
     interface View extends BaseView<Presenter> {
-        void showTodayQuestions(List<Question> questionList);
-        void showAnswersOfAQuestion(Question question);
+        void showTodayQuestions(List<Question> questionList, int userId);
+
+        void showAnswersOfAQuestion(Question question, int userId);
+
+        void scrollToParticularQuestion(int month, int day);
         boolean isActive();
     }
 
     interface Presenter extends BasePresenter {
         void loadTodayQuestions();
+
+        void scrollToQuestion(int month, int day);
     }
 }

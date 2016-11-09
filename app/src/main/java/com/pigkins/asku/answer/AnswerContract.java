@@ -13,6 +13,8 @@ import java.util.List;
 public interface AnswerContract {
     interface View extends BaseView<Presenter> {
         void showAnswers(List<Answer> answerList);
+
+        void updateThisYearAnswer(Answer answer);
     }
 
     interface Presenter extends BasePresenter {
